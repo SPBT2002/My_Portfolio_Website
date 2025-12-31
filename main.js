@@ -140,3 +140,104 @@ if (contactForm) {
     });
 }
 
+// ===== Particle Trail Animation =====
+document.addEventListener('DOMContentLoaded', function() {
+    const canvas = document.getElementById('particleCanvas');
+    
+    if (!canvas) {
+        console.error('Canvas element not found');
+        return;
+    }
+    
+    const ctx = canvas.getContext('2d');
+
+    // Set canvas size
+    function setCanvasSize() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+    setCanvasSize();
+    window.addEventListener('resize', setCanvasSize);
+
+    // Particle array
+    const particlesArray = [];
+    const maxParticles = 100;
+
+    // Mouse position
+    const mouse = {
+        x: undefined,
+        y: undefined
+    };
+
+    // Track mouse movement
+    window.addEventListener('mousemove', function(event) {
+        mouse.x = event.x;
+        mouse.y = event.y;
+        
+        // Create particles at mouse position
+        for (let i = 0; i < 3; i++) {
+            particlesArray.push(new Particle());
+        }
+    });
+
+    // Particle class
+    class Particle {
+        constructor() {
+            this.x = mouse.x;
+            this.y = mouse.y;
+            this.size = Math.random() * 3 + 1;
+            this.speedX = Math.random() * 3 - 1.5;
+            this.speedY = Math.random() * 3 - 1.5;
+            this.life = 100;
+        }
+
+        // Update particle
+        update() {
+            this.x += this.speedX;
+            this.y += this.speedY;
+            this.life -= 2;
+            
+            if (this.size > 0.2) this.size -= 0.05;
+        }
+
+        // Draw particle
+        draw() {
+            ctx.fillStyle = `rgba(0, 238, 255, ${this.life / 100})`;
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Draw glow
+            ctx.shadowBlur = 15;
+            ctx.shadowColor = '#0ef';
+        }
+    }
+
+    // Handle particles
+    function handleParticles() {
+        for (let i = 0; i < particlesArray.length; i++) {
+            particlesArray[i].update();
+            particlesArray[i].draw();
+            
+            // Remove dead particles
+            if (particlesArray[i].life <= 0) {
+                particlesArray.splice(i, 1);
+                i--;
+            }
+        }
+        
+        // Limit particles
+        if (particlesArray.length > maxParticles) {
+            particlesArray.splice(0, particlesArray.length - maxParticles);
+        }
+    }
+
+    // Animation loop
+    function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        handleParticles();
+        requestAnimationFrame(animate);
+    }
+
+    animate();
+});

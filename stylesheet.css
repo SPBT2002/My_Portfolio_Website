@@ -19,6 +19,17 @@ body
     overflow-x: hidden;
     width: 100%;
 }
+/* Particle Canvas Background */
+#particleCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+}
+
 .header
 {
     position: fixed;
@@ -30,7 +41,7 @@ body
     display: flex;
     justify-content: space-between;
     align-items: center;
-    z-index: 100;
+    z-index: 1000;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 
@@ -335,7 +346,7 @@ body
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     align-items: center;
-    background-color: #090610;
+    background-color: transparent;
     gap: 3rem;
     padding: 80px 8% 50px;
     min-height: 100vh;
@@ -468,6 +479,8 @@ section {
     display: flex;
     flex-wrap: wrap;
     padding-top: 150px;
+    position: relative;
+    z-index: 1;
 }
 
 @media (max-width: 1200px) {
@@ -519,7 +532,7 @@ section {
 /* Skills Section Layout */
 .skills-section {
   padding: 100px 5% 80px;
-  background-color: #090610;
+  background-color: transparent;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -808,7 +821,7 @@ section {
 /* Projects section */
 .projects-section {
   padding: 100px 8% 80px;
-  background-color: #090610;
+  background-color: transparent;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1089,7 +1102,7 @@ section {
 /* Contact layout */
 .contact-section {
   padding:80px 0;
-  background:#050b14;
+  background: transparent;
 }
 
 @media (max-width: 1200px) {
